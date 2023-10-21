@@ -10,8 +10,6 @@ jobs:
   setup:
     name: Setup
     runs-on: ubuntu-latest
-    environment:
-      name: github
     outputs:
       repo_name: ${{ steps.config.outputs.repo_name }}
       branch: ${{ steps.config.outputs.branch }}
@@ -29,7 +27,6 @@ jobs:
         repository_lower=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]') 
         branch=${GITHUB_REF#refs/heads/}
         echo "branch=${GITHUB_REF#refs/heads/}" >> $GITHUB_OUTPUT
-        echo "tag=${{ secrets.TAGS }}" >> $GITHUB_OUTPUT
         echo "image_name=ghcr.io/$repository_lower/${branch}-planty-infra:latest" >> $GITHUB_OUTPUT
 
     - name: Bump version and release
@@ -47,8 +44,6 @@ jobs:
     name: Build
     needs: [setup]
     runs-on: ubuntu-latest
-    environment:
-      name: github
 
     steps:
     - name: Check out code
@@ -56,8 +51,8 @@ jobs:
       with:
         ref: "refs/tags/${{ needs.setup.outputs.tag }}"
 
-    - name: Create .env
-      run: echo "${{ secrets.server_env }}" > .env
+    # - name: Create .env
+    #   run: echo "${{ secrets.server_env }}" > .env
 
     - name: Build Docker image
       run: docker build -t ${{ needs.setup.outputs.image_name }} -f Dockerfile .
@@ -72,8 +67,6 @@ jobs:
     name: Deploy
     needs: [setup, build]
     runs-on: ubuntu-latest
-    environment:
-      name: github
     steps:
     - name: Checkout
       uses: actions/checkout@v4
