@@ -1,0 +1,14 @@
+version: "3.5"
+
+services:
+  planty_nginx:
+    image: ${GHCR_IMAGE}
+    container_name: planty_nginx
+    ports:
+      - "80:80"
+    networks:
+      - proxynet
+
+networks:
+  proxynet:
+    name: plantynet
