@@ -24,7 +24,8 @@ jobs:
       id: config
       run: |
         echo "repo_name=$(echo ${{ github.repository }} | awk -F / '{print $2}')" >> $GITHUB_OUTPUT
-        repository_lower=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]') 
+        repository_lower=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
+        branch=${GITHUB_REF#refs/heads/}
         echo "branch=${GITHUB_REF#refs/heads/}" >> $GITHUB_OUTPUT
         echo "image_name=ghcr.io/$repository_lower/${branch}-planty-infra:latest" >> $GITHUB_OUTPUT
 
