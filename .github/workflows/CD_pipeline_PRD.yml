@@ -91,3 +91,4 @@ jobs:
           echo "${{ secrets.GHCR_TOKEN }}" | sudo docker login ghcr.io -u ${{ github.actor }} --password-stdin
           sudo docker pull ${{ needs.setup.outputs.image_name }}
           sudo env GHCR_IMAGE="${{ needs.setup.outputs.image_name }}" docker-compose -f docker-compose.deploy.yml up --build -d
+          
