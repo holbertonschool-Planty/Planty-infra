@@ -1,3 +1,7 @@
 FROM nginx:latest
 
-COPY ./nginx/sites_available/planty.conf /etc/nginx/conf.d/default.conf
+RUN rm /etc/nginx/conf.d/default.conf
+
+COPY ./nginx/sites-available/planty.conf /etc/nginx/conf.d/
+
+CMD ["ngix", "-g", "daemon off;"]
