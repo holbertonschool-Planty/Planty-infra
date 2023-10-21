@@ -3,7 +3,8 @@ name: CI
 on: 
   push:
     branches:
-      - "main"
+      - "feature/create-pipeline"
+  workflow_dispatch:
 
 jobs:
   setup:
