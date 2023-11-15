@@ -6,6 +6,7 @@ services:
     container_name: planty_nginx
     ports:
       - "443:443"
+      - "80:80"
     networks:
       - proxynet
 
